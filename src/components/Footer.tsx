@@ -21,20 +21,19 @@ export function Footer() {
     setStatus('loading');
 
     try {
-      const response = await fetch('https://n8n.srv1467458.hstgr.cloud/webhook/gopeakcall-website-form', {
+      await fetch('https://n8n.srv1467458.hstgr.cloud/webhook/gopeakcall-website-form', {
         method: 'POST',
+        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        setStatus('success');
-        setFormData({ fullName: '', phone: '', email: '', businessName: '', businessType: '', message: '' });
-      } else {
-        setStatus('error');
-      }
+      // With no-cors, the response is opaque and response.ok is always false.
+      // If the fetch didn't throw a network error, we assume it successfully reached the server.
+      setStatus('success');
+      setFormData({ fullName: '', phone: '', email: '', businessName: '', businessType: '', message: '' });
     } catch (error) {
       setStatus('error');
     }
