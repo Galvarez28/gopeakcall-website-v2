@@ -3,10 +3,8 @@ import { useRef, useEffect } from "react";
 interface Star {
     x: number;
     y: number;
-    radius: number;
-    vx: number;
-    vy: number;
-    alpha: number;
+    z: number;
+    pz: number;
 }
 
 export function Stars() {
@@ -21,75 +19,76 @@ export function Stars() {
 
         let stars: Star[] = [];
         let animationFrameId: number;
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+
+        const numStars = 800;
+        const speed = 2.5;
 
         const resize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            initStars();
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
         };
 
         const initStars = () => {
             stars = [];
-            const numStars = Math.floor((canvas.width * canvas.height) / 8000);
             for (let i = 0; i < numStars; i++) {
                 stars.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    radius: Math.random() * 1.5,
-                    vx: (Math.random() - 0.5) * 0.2,
-                    vy: (Math.random() - 0.5) * 0.2,
-                    alpha: Math.random(),
+                    x: Math.random() * width * 2 - width,
+                    y: Math.random() * height * 2 - height,
+                    z: Math.random() * width,
+                    pz: Math.random() * width,
                 });
             }
         };
 
         const draw = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, width, height);
+
+            const cx = width / 2;
+            const cy = height / 2;
 
             stars.forEach((star) => {
-                // Update position
-                star.x += star.vx;
-                star.y += star.vy;
+                star.z -= speed;
 
-                // Bounce off edges
-                if (star.x < 0 || star.x > canvas.width) star.vx *= -1;
-                if (star.y < 0 || star.y > canvas.height) star.vy *= -1;
-
-                // Draw star
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
-                ctx.fill();
-
-                // Twinkle effect
-                star.alpha += (Math.random() - 0.5) * 0.05;
-                if (star.alpha > 1) star.alpha = 1;
-                if (star.alpha < 0.1) star.alpha = 0.1;
-            });
-
-            // Draw connecting lines for nearby stars
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
-            ctx.lineWidth = 0.5;
-            for (let i = 0; i < stars.length; i++) {
-                for (let j = i + 1; j < stars.length; j++) {
-                    const dx = stars[i].x - stars[j].x;
-                    const dy = stars[i].y - stars[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < 100) {
-                        ctx.beginPath();
-                        ctx.moveTo(stars[i].x, stars[i].y);
-                        ctx.lineTo(stars[j].x, stars[j].y);
-                        ctx.stroke();
-                    }
+                if (star.z < 1) {
+                    star.x = Math.random() * width * 2 - width;
+                    star.y = Math.random() * height * 2 - height;
+                    star.z = width;
+                    star.pz = width;
                 }
-            }
+
+                const sx = (star.x / star.z) * width + cx;
+                const sy = (star.y / star.z) * height + cy;
+
+                const px = (star.x / star.pz) * width + cx;
+                const py = (star.y / star.pz) * height + cy;
+
+                star.pz = star.z;
+
+                // Size gets bigger as it comes closer
+                const radius = Math.max(0.1, (1 - star.z / width) * 2.5);
+
+                // Alpha gets brighter as it comes closer
+                const alpha = Math.max(0.1, 1 - star.z / width);
+
+                // Draw the star trail (warp effect)
+                ctx.beginPath();
+                ctx.moveTo(px, py);
+                ctx.lineTo(sx, sy);
+                ctx.lineWidth = radius;
+                ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+                ctx.stroke();
+            });
 
             animationFrameId = requestAnimationFrame(draw);
         };
 
         window.addEventListener("resize", resize);
         resize();
+        initStars();
         draw();
 
         return () => {
@@ -99,7 +98,7 @@ export function Stars() {
     }, []);
 
     return (
-        <div className="absolute inset-0 pointer-events-none z-0 mix-blend-screen opacity-60">
+        <div className="absolute inset-0 pointer-events-none z-0 mix-blend-screen opacity-70">
             <canvas
                 ref={canvasRef}
                 className="w-full h-full"

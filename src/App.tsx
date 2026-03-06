@@ -23,8 +23,8 @@ export default function App() {
         <Stats />
         <ProblemStatement />
         <Mission />
-        <HowItWorks />
         <Features />
+        <HowItWorks />
         <Visibility />
         <SocialProof />
         <Pricing />

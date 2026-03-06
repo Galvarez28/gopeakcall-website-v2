@@ -1,6 +1,45 @@
+import React, { useState } from 'react';
 import { FadeIn } from './FadeIn';
 
 export function Footer() {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phone: '',
+    email: '',
+    businessName: '',
+    businessType: '',
+    message: ''
+  });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+
+    try {
+      const response = await fetch('https://n8n.srv1467458.hstgr.cloud/webhook/gopeakcall-website-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ fullName: '', phone: '', email: '', businessName: '', businessType: '', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      setStatus('error');
+    }
+  };
+
   return (
     <footer id="contact" className="bg-[#0f1420] pt-24 pb-12 px-6 relative overflow-hidden border-t border-white/10">
       <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -14,32 +53,32 @@ export function Footer() {
           </FadeIn>
 
           <FadeIn>
-            <form className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/80">Full Name</label>
-                  <input type="text" className="form-input" required />
+                  <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} className="form-input" required />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/80">Phone Number</label>
-                  <input type="tel" className="form-input" required />
+                  <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="form-input" required />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/80">Email Address</label>
-                  <input type="email" className="form-input" required />
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-input" required />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/80">Business Name</label>
-                  <input type="text" className="form-input" required />
+                  <input type="text" name="businessName" value={formData.businessName} onChange={handleChange} className="form-input" required />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-white/80">Type of Business</label>
-                <select className="form-input bg-[#0f1420] text-white" defaultValue="" required>
+                <select name="businessType" value={formData.businessType} onChange={handleChange} className="form-input bg-[#0f1420] text-white" required>
                   <option value="" disabled>Select an option</option>
                   <option value="HVAC">HVAC</option>
                   <option value="Plumbing">Plumbing</option>
@@ -51,13 +90,27 @@ export function Footer() {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-white/80">Anything else we should know before the call?</label>
                 <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   className="w-full bg-white/[0.07] border border-white/[0.14] rounded-lg text-white p-4 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all outline-none resize-none h-32"
                 ></textarea>
               </div>
 
-              <button type="submit" className="w-full h-[56px] rounded-lg bg-blue-500 text-white font-semibold text-[16px] hover:-translate-y-[2px] hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.2)] transition-all duration-180 mt-4">
-                Submit Request
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="w-full h-[56px] flex items-center justify-center rounded-lg bg-blue-500 text-white font-semibold text-[16px] hover:-translate-y-[2px] disabled:opacity-50 disabled:hover:translate-y-0 transition-all duration-180 mt-4"
+              >
+                {status === 'loading' ? 'Sending...' : 'Submit Request'}
               </button>
+
+              {status === 'success' && (
+                <p className="text-sm text-green-400 mt-4 text-center">Your request has been sent successfully. We will be in touch shortly.</p>
+              )}
+              {status === 'error' && (
+                <p className="text-sm text-red-400 mt-4 text-center">There was an error sending your request. Please try again.</p>
+              )}
             </form>
           </FadeIn>
         </div>
