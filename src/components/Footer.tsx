@@ -21,13 +21,21 @@ export function Footer() {
     setStatus('loading');
 
     try {
+      const urlEncodedData = new URLSearchParams();
+      urlEncodedData.append('fullName', formData.fullName);
+      urlEncodedData.append('phone', formData.phone);
+      urlEncodedData.append('email', formData.email);
+      urlEncodedData.append('businessName', formData.businessName);
+      urlEncodedData.append('businessType', formData.businessType);
+      urlEncodedData.append('message', formData.message);
+
       await fetch('https://n8n.srv1467458.hstgr.cloud/webhook/gopeakcall-website-form', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(formData),
+        body: urlEncodedData.toString(),
       });
 
       // With no-cors, the response is opaque and response.ok is always false.
