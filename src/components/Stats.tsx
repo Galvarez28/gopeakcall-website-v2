@@ -85,7 +85,7 @@ export function Stats() {
           </FadeInStaggerItem>
 
           <FadeInStaggerItem className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-md flex flex-col justify-center text-center md:col-span-2 lg:col-span-2 hover:bg-white/10 transition-colors">
-            <div className="text-[48px] md:text-[48px] lg:text-[56px] font-bold text-blue-500 leading-none mb-4 whitespace-nowrap overflow-hidden text-ellipsis">
+            <div className="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[56px] font-bold text-blue-500 leading-none mb-4 whitespace-nowrap overflow-hidden text-ellipsis">
               $<CountUp end={48000} format={true} />–$<CountUp end={160000} format={true} />
             </div>
             <div className="text-[17px] font-medium text-white/80">
@@ -94,7 +94,7 @@ export function Stats() {
           </FadeInStaggerItem>
 
           <FadeInStaggerItem className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-md flex flex-col justify-center text-center md:col-span-2 lg:col-span-1 hover:bg-white/10 transition-colors">
-            <div className="text-[48px] md:text-[48px] lg:text-[40px] xl:text-[48px] font-bold text-blue-500 leading-none mb-4 whitespace-nowrap overflow-hidden text-ellipsis">
+            <div className="text-[32px] sm:text-[36px] md:text-[48px] lg:text-[40px] xl:text-[48px] font-bold text-blue-500 leading-none mb-4 whitespace-nowrap overflow-hidden text-ellipsis">
               $<CountUp end={1000} format={true} />–$<CountUp end={5000} format={true} />
             </div>
             <div className="text-[17px] font-medium text-white/80">
