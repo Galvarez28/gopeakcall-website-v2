@@ -148,8 +148,8 @@ export function Footer() {
               <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Contact</h4>
               <ul className="space-y-3">
                 <li>
-                  <a href="mailto:gabriel.alvarez@gopeakcall.com" className="text-[15px] text-white/60 hover:text-white transition-colors break-all">
-                    gabriel.alvarez@gopeakcall.com
+                  <a href="mailto:support@gopeakcall.com" className="text-[15px] text-white/60 hover:text-white transition-colors break-all">
+                    support@gopeakcall.com
                   </a>
                 </li>
               </ul>

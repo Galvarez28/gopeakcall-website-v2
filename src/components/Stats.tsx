@@ -89,7 +89,7 @@ export function Stats() {
               $<CountUp end={48000} format={true} />–$<CountUp end={160000} format={true} />
             </div>
             <div className="text-[17px] font-medium text-white/80">
-              lost per year to unanswered calls for a typical 2–3 tech HVAC company.
+              lost per year to unanswered calls for a typical 6+ tech HVAC company.
             </div>
           </FadeInStaggerItem>
 
