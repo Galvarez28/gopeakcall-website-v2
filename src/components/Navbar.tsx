@@ -18,8 +18,8 @@ export function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 w-full flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src="/images/logo_transparent.png" alt="GoPeakCall Logo" className="h-14 object-contain" />
-          <span className="font-bold text-[28px] tracking-tight ml-2 text-[#73c2fb]" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>GoPeakCall</span>
+          <img src="/images/logo_transparent.png" alt="GoPeakCall Logo" className="h-10 md:h-14 object-contain" />
+          <span className="font-bold text-[20px] md:text-[28px] tracking-tight ml-2 text-[#73c2fb]" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>GoPeakCall</span>
         </div>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -35,7 +35,7 @@ export function Navbar() {
           ))}
         </nav>
 
-        <a href="#contact" className="h-10 px-5 flex items-center justify-center rounded-lg bg-blue-500 text-sm font-semibold hover:-translate-y-[1px] hover:shadow-[inset_0_0_12px_rgba(255,255,255,0.2)] transition-all duration-180">
+        <a href="#contact" className="h-8 px-3 text-xs md:h-10 md:px-5 md:text-sm flex items-center justify-center rounded-lg bg-blue-500 font-semibold hover:-translate-y-[1px] hover:shadow-[inset_0_0_12px_rgba(255,255,255,0.2)] transition-all duration-180">
           Book a meeting
         </a>
       </div>

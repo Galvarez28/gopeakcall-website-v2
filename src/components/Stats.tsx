@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { FadeInStagger, FadeInStaggerItem } from './FadeIn';
 import { Stars } from './Stars';
 
-function CountUp({ end, prefix = '', suffix = '', duration = 2000 }: { end: number, prefix?: string, suffix?: string, duration?: number }) {
+function CountUp({ end, prefix = '', suffix = '', duration = 2000, format = false }: { end: number, prefix?: string, suffix?: string, duration?: number, format?: boolean }) {
   const [count, setCount] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
@@ -31,7 +31,7 @@ function CountUp({ end, prefix = '', suffix = '', duration = 2000 }: { end: numb
     return () => observer.disconnect();
   }, [end, duration, hasAnimated]);
 
-  return <span ref={ref}>{prefix}{count}{suffix}</span>;
+  return <span ref={ref}>{prefix}{format ? count.toLocaleString() : count}{suffix}</span>;
 }
 
 export function Stats() {
@@ -68,7 +68,7 @@ export function Stats() {
 
           <FadeInStaggerItem className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-md flex flex-col justify-center text-center hover:bg-white/10 transition-colors">
             <div className="text-[48px] md:text-[56px] font-bold text-blue-500 leading-none mb-4">
-              $<CountUp end={300} />–$<CountUp end={1200} />
+              $<CountUp end={300} />–$<CountUp end={1200} format={true} />
             </div>
             <div className="text-[17px] font-medium text-white/80">
               is lost in potential revenue for every single missed call.
@@ -85,8 +85,8 @@ export function Stats() {
           </FadeInStaggerItem>
 
           <FadeInStaggerItem className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-md flex flex-col justify-center text-center md:col-span-2 lg:col-span-2 hover:bg-white/10 transition-colors">
-            <div className="text-[48px] md:text-[48px] lg:text-[56px] font-bold text-blue-500 leading-none mb-4 whitespace-nowrap">
-              $<CountUp end={48} suffix=",000" />–$<CountUp end={160} suffix=",000" />
+            <div className="text-[48px] md:text-[48px] lg:text-[56px] font-bold text-blue-500 leading-none mb-4 whitespace-nowrap overflow-hidden text-ellipsis">
+              $<CountUp end={48000} format={true} />–$<CountUp end={160000} format={true} />
             </div>
             <div className="text-[17px] font-medium text-white/80">
               lost per year to unanswered calls for a typical 2–3 tech HVAC company.
@@ -94,11 +94,11 @@ export function Stats() {
           </FadeInStaggerItem>
 
           <FadeInStaggerItem className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-md flex flex-col justify-center text-center md:col-span-2 lg:col-span-1 hover:bg-white/10 transition-colors">
-            <div className="text-[48px] md:text-[48px] lg:text-[40px] xl:text-[48px] font-bold text-blue-500 leading-none mb-4 whitespace-nowrap">
-              $<CountUp end={1} suffix=",000" />–$<CountUp end={5} suffix=",000" />
+            <div className="text-[48px] md:text-[48px] lg:text-[40px] xl:text-[48px] font-bold text-blue-500 leading-none mb-4 whitespace-nowrap overflow-hidden text-ellipsis">
+              $<CountUp end={1000} format={true} />–$<CountUp end={5000} format={true} />
             </div>
             <div className="text-[17px] font-medium text-white/80">
-              lost on a single 95°F peak day due to missed calls.
+              lost on a single 85°F peak day due to missed calls.
             </div>
           </FadeInStaggerItem>
         </FadeInStagger>
