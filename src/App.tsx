@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ProofStrip } from './components/ProofStrip';
@@ -31,6 +32,7 @@ export default function App() {
         <FAQ />
       </main>
       <Footer />
+      <Analytics />
     </div>
   );
 }
