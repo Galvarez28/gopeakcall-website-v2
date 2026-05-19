@@ -3,79 +3,72 @@ import { FadeIn, FadeInStagger, FadeInStaggerItem } from './FadeIn';
 
 const tiers = [
   {
-    name: "Basic",
-    price: "$399",
-    originalPrice: "$549",
-    label: "Discounted for Founding Partners",
+    name: "Starter",
+    price: "$400",
+    originalPrice: null,
+    label: "For small owner-operated businesses",
     badge: null,
     headline: null,
+    subheadline: null,
     commitmentNote: null,
     basicFeatures: [
-      "24/7 call answering",
-      "350 fair-use minutes/month included",
-      "$0.45/min for additional minutes",
+      "Up to 500 minutes/month",
     ],
     advancedFeatures: [
+      "24/7 call answering",
       "Direct calendar scheduling",
       "CRM updates",
       "New & returning client handling",
       "Spam & telemarketer call filtering",
       "Emergency transfer to human agent"
     ],
-    buttonText: "Claim Basic Plan",
+    buttonText: "Get Started",
     popular: false,
     bestValue: false
   },
   {
-    name: "Pro",
-    price: "$599",
-    originalPrice: "$799",
-    label: "Discounted for Founding Partners",
+    name: "Professional",
+    price: "$550",
+    originalPrice: null,
+    label: "For HVAC, plumbing & electrical businesses",
     badge: "Most Popular",
     headline: null,
+    subheadline: null,
     commitmentNote: null,
     basicFeatures: [
-      "Everything in Basic",
-      "750 fair-use minutes/month included",
-      "$0.35/min for additional minutes",
+      "Up to 1000 minutes/month",
     ],
     advancedFeatures: [
-      "Automated SMS appointment confirmations",
-      "Automated SMS appointment reminders",
-      "Rescheduling handling",
-      "Cancellation handling",
-      "Post-appointment follow-up messages",
-      "SMS review requests after appointments"
+      "Everything in Starter",
+      "Priority call handling",
+      "Dedicated agent trained to the business",
+      "Advanced scheduling and booking logic",
+      "Monthly performance review"
     ],
-    buttonText: "Claim Pro Plan",
+    buttonText: "Get Started",
     popular: true,
     bestValue: false
   },
   {
-    name: "Founding Partner Lock-In",
-    price: "$499",
+    name: "Scale",
+    price: "Custom",
     originalPrice: null,
-    label: "Limited Offer — Only available to our first 5 clients",
+    label: "For high-volume businesses & multi-location",
     badge: "Best Value",
-    headline: "Lock in Pro features at our lowest rate.",
-    commitmentNote: "6-month prepay commitment",
+    headline: null,
+    subheadline: null,
+    commitmentNote: null,
     basicFeatures: [
-      "Everything in Pro",
-      "750 fair-use minutes/month included",
-      "$0.35/min for additional minutes",
+      "Unlimited",
     ],
     advancedFeatures: [
-      "Automated SMS appointment confirmations",
-      "Automated SMS appointment reminders",
-      "Rescheduling handling",
-      "Cancellation handling",
-      "Post-appointment follow-up messages",
-      "SMS review requests after appointments",
-      "Reduced monthly price (save $100/mo vs Pro)",
+      "Everything in Professional",
+      "Custom integrations",
+      "Dedicated onboarding and build",
       "Priority support",
-      "6-month rate lock guarantee"
+      "Rate lock guarantee"
     ],
-    buttonText: "Claim Founding Partner Plan",
+    buttonText: "Book a Call",
     popular: false,
     bestValue: true
   }
@@ -86,19 +79,18 @@ export function Pricing() {
     <section id="pricing" className="py-24 md:py-32 px-6 bg-[#0a0e1a]">
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-10">
-          <span className="eyebrow mx-auto">Pricing</span>
           <h2 className="text-[36px] md:text-[48px] font-bold leading-tight mb-4">
-            Simple plans for any size fleet.
+            Pricing
           </h2>
-          <p className="text-[18px] text-white/80 max-w-2xl mx-auto font-medium">
-            If GoPeakCall recovers just 1–2 missed jobs per month, it pays for itself.
+          <p className="text-[20px] text-white/80 max-w-2xl mx-auto font-medium">
+            Simple monthly pricing based on your business size and call volume.
           </p>
         </FadeIn>
 
         <FadeInStagger className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {tiers.map((tier, i) => (
             <FadeInStaggerItem key={i} className={`relative rounded-2xl p-8 flex flex-col h-full ${tier.popular
-                ? 'bg-blue-500/10 border border-blue-500/50 shadow-[0_0_40px_rgba(59,130,246,0.15)]'
+                ? 'bg-blue-500/10 border-2 border-blue-500 shadow-[0_0_50px_rgba(59,130,246,0.3)]'
                 : tier.bestValue
                   ? 'bg-amber-500/10 border border-amber-500/50 shadow-[0_0_40px_rgba(245,158,11,0.15)]'
                   : 'bg-white/[0.03] border border-white/10'
@@ -116,7 +108,11 @@ export function Pricing() {
               <p className="text-[14px] text-white/60 mb-2 min-h-[40px]">{tier.label}</p>
 
               {tier.headline && (
-                <p className="text-[16px] text-white font-medium mb-4">{tier.headline}</p>
+                <div className="mb-4">
+                  <p className="text-[16px] text-white font-medium">{tier.headline}</p>
+                  {/* @ts-ignore */}
+                  {tier.subheadline && <p className="text-[14px] text-white/80 mt-1">{tier.subheadline}</p>}
+                </div>
               )}
 
               <div className="mb-6">
@@ -126,8 +122,9 @@ export function Pricing() {
                   )}
                 </div>
                 <div>
-                  <span className="text-[48px] font-bold tracking-tight">{tier.price}</span>
-                  <span className="text-white/50">/month</span>
+                  <span className="text-[42px] font-bold tracking-tight">{tier.price}</span>
+                  {tier.price !== "Custom" && <span className="text-white/50">/month</span>}
+                  {tier.price === "Custom" && <span className="text-white/50 ml-2">Pricing</span>}
                 </div>
                 {tier.commitmentNote && (
                   <p className="text-[13px] text-white/50 mt-1">{tier.commitmentNote}</p>
@@ -168,13 +165,21 @@ export function Pricing() {
           ))}
         </FadeInStagger>
 
-        <FadeIn className="text-center mt-12 max-w-3xl mx-auto space-y-2">
-          <p className="text-[15px] text-white/60">
-            Setup is free for founding partners. Standard setup fee of $350 applies after founding cohort closes.
+        <FadeIn className="text-center mt-12 max-w-3xl mx-auto space-y-4">
+          <p className="text-[15px] text-white/80 font-medium pb-2">
+            Need something custom? Book a free demo and we'll build a plan around your call volume.
           </p>
-          <p className="text-[15px] text-white/60">
-            You won't be charged until the free trial runs out.
-          </p>
+          <div className="space-y-2 pt-6 border-t border-white/10">
+            <p className="text-[15px] text-white/60">
+              Setup is free for early clients. Standard setup fee of $350 applies after launch cohort closes.
+            </p>
+            <p className="text-[15px] text-white/60">
+              You won't be charged until the free trial runs out.
+            </p>
+            <p className="text-[15px] text-white/60">
+              No contracts. Cancel anytime. Setup takes less than a week.
+            </p>
+          </div>
         </FadeIn>
       </div>
     </section>
